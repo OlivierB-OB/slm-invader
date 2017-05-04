@@ -183,9 +183,9 @@ function spaceInvader (window, canvas) {
     };
     Ship.prototype.drawLife = function () {
         context.save();
-        context.fillStyle = '#1CB5E7';
-        context.fillRect(this.game.size.x -112, 10, 102, 12);
         context.fillStyle = '#F95738';
+        context.fillRect(this.game.size.x -112, 10, 102, 12);
+        context.fillStyle = '#1CB5E7';
         context.fillRect(this.game.size.x -111, 11, this.life * 100 / Ship.MAX_LIFE, 10);
         context.restore();
     };
