@@ -35,7 +35,7 @@ function spaceInvader (window, canvas) {
         this.computeElements();
         this.elements.forEach(Element.update);
         if (!this.rebel.length) {
-            this.showText('Game Over!!!', true);
+            this.showText('SLM beat you!!!', true);
             return;
         }
         if (!this.republic.length) this.createWave();
@@ -48,7 +48,7 @@ function spaceInvader (window, canvas) {
             context.save();
             context.font = '30px Arial';
             context.textAlign='center';
-            context.fillStyle = '#FFFFFF';
+            context.fillStyle = 'white';
             context.fillText(this.message, canvas.width / 2, canvas.height / 2);
             context.restore();
         }
@@ -94,7 +94,7 @@ function spaceInvader (window, canvas) {
         this.ship.life = Ship.MAX_LIFE;
         this.ship.fireRate = Math.max(50, Ship.FIRE_RATE - 50 * this.wave);
         this.wave++;
-        this.showText('Wave: ' + this.wave);
+        this.showText('Season: ' + this.wave);
         var waveSpeed = Math.ceil(this.wave / 2);
         var waveProb = (999 - this.wave * 2) / 1000;
         var margin = {x: Alien.SIZE.x + 10, y: Alien.SIZE.y + 10};
@@ -183,7 +183,7 @@ function spaceInvader (window, canvas) {
     };
     Ship.prototype.drawLife = function () {
         context.save();
-        context.fillStyle = 'white';
+        context.fillStyle = '#1CB5E7';
         context.fillRect(this.game.size.x -112, 10, 102, 12);
         context.fillStyle = '#F95738';
         context.fillRect(this.game.size.x -111, 11, this.life * 100 / Ship.MAX_LIFE, 10);
@@ -211,7 +211,7 @@ function spaceInvader (window, canvas) {
             return element instanceof Alien;
         });
         context.save();
-        context.fillStyle = 'white';
+        context.fillStyle = '#1CB5E7';
         context.fillRect(10, 10, 10 * array.length + 2, 12);
         array.forEach(function (alien, idx) {
             switch (alien.life) {
@@ -219,7 +219,7 @@ function spaceInvader (window, canvas) {
                     context.fillStyle = '#539A20';
                     break;
                 case 2:
-                    context.fillStyle = '#FDC635';
+                    context.fillStyle = '#F69417';
                     break;
                 case 1:
                     context.fillStyle = '#F95738';
