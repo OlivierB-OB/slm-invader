@@ -8,6 +8,7 @@ canvas {
     background-color: black;
     background-image: url('https://raw.githubusercontent.com/OlivierB-OB/slm-invader/master/bg.png');
     background-position: top right;
+    background-repeat: no-repeat;
 }
 
 img {

@@ -1,5 +1,6 @@
 
 spaceInvader(window, document.getElementById('space-invader'));
+window.focus();
 
 function spaceInvader (window, canvas) {
 
@@ -184,7 +185,7 @@ function spaceInvader (window, canvas) {
         context.save();
         context.fillStyle = 'white';
         context.fillRect(this.game.size.x -112, 10, 102, 12);
-        context.fillStyle = 'red';
+        context.fillStyle = '#F95738';
         context.fillRect(this.game.size.x -111, 11, this.life * 100 / Ship.MAX_LIFE, 10);
         context.restore();
     };
@@ -215,13 +216,13 @@ function spaceInvader (window, canvas) {
         array.forEach(function (alien, idx) {
             switch (alien.life) {
                 case 3:
-                    context.fillStyle = 'green';
+                    context.fillStyle = '#539A20';
                     break;
                 case 2:
-                    context.fillStyle = 'yellow';
+                    context.fillStyle = '#FDC635';
                     break;
                 case 1:
-                    context.fillStyle = 'red';
+                    context.fillStyle = '#F95738';
                     break;
             }
             context.fillRect(10 * idx + 11, 11, 10, 10);
