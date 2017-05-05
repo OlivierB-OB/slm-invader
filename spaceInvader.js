@@ -6,6 +6,28 @@ function spaceInvader (window, canvas) {
 
     var context = canvas.getContext('2d');
 
+    class Pos {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        clone() {
+            return new Pos(this.x, this.y);
+        }
+
+        move(x, y) {
+            this.x += x;
+            this.y += y;
+            return this;
+        }
+
+        add(pos) {
+            this.move(pos.x, pos.y);
+            return this;
+        }
+    }
+
     class Game {
         constructor() {
             this.message = '';
@@ -152,7 +174,7 @@ function spaceInvader (window, canvas) {
         }
     }
 
-    class Ship {
+    class Ship extends Element {
         constructor(game) {
             var pos = new Pos(
                 Math.floor(game.size.x / 2) - Math.floor(Ship.SIZE.x / 2),
@@ -212,35 +234,13 @@ function spaceInvader (window, canvas) {
     Ship.MAX_LIFE = 5;
     Ship.FIRE_RATE = 200;
 
-    class Alien {
+    class Alien extends Element {
         constructor(game, pos, speed, shootProb) {
             super(game, pos, Alien.SIZE);
             this.speed = speed;
             this.shootProb = shootProb;
             this.life = 3;
             this.direction = new Pos(1, 1);
-        }
-
-        drawLife (array) {
-            array = array.filter(x => x instanceof Alien);
-            context.save();
-            context.fillStyle = '#1CB5E7';
-            context.fillRect(10, 10, 10 * array.length + 2, 12);
-            array.forEach(function (alien, idx) {
-                switch (alien.life) {
-                    case 3:
-                        context.fillStyle = '#539A20';
-                        break;
-                    case 2:
-                        context.fillStyle = '#F69417';
-                        break;
-                    case 1:
-                        context.fillStyle = '#F95738';
-                        break;
-                }
-                context.fillRect(10 * idx + 11, 11, 10, 10);
-            });
-            context.restore();
         }
 
         update () {
@@ -279,12 +279,34 @@ function spaceInvader (window, canvas) {
             context.drawImage(Image('fighter'), 0, 0);
             context.restore();
         }
+
+        static drawLife (array) {
+            array = array.filter(x => x instanceof Alien);
+            context.save();
+            context.fillStyle = '#1CB5E7';
+            context.fillRect(10, 10, 10 * array.length + 2, 12);
+            array.forEach(function (alien, idx) {
+                switch (alien.life) {
+                    case 3:
+                        context.fillStyle = '#539A20';
+                        break;
+                    case 2:
+                        context.fillStyle = '#F69417';
+                        break;
+                    case 1:
+                        context.fillStyle = '#F95738';
+                        break;
+                }
+                context.fillRect(10 * idx + 11, 11, 10, 10);
+            });
+            context.restore();
+        }
     }
     Alien.SIZE = new Pos(50, 56);
     Alien.MAX_RANGE = 350;
     Alien.CHDIR_PRO = 0.990;
 
-    class Bullet {
+    class Bullet extends Element {
         constructor(game, pos, direction, isRebel) {
             super(game, pos, Bullet.SIZE);
             this.direction = direction;
@@ -316,7 +338,7 @@ function spaceInvader (window, canvas) {
     Bullet.SIZE = new Pos(15, 16);
     Bullet.SPEED = 3;
 
-    class Explosion {
+    class Explosion extends Element {
         constructor(game, pos) {
             super(game, pos, Explosion.SIZE);
             this.life = 1;
@@ -355,29 +377,9 @@ function spaceInvader (window, canvas) {
         SPACE: 32
     };
 
-    class Pos {
-        constructor(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        clone() {
-            return new Pos(this.x, this.y);
-        }
-
-        move(x, y) {
-            this.x += x;
-            this.y += y;
-        }
-
-        add(pos) {
-            this.move(pos.x, pos.y);
-        }
-    }
-
     function Ressource(name) {
-        if (!Image.cache[name]) Image.cache[name] = document.getElementById(name);
-        return Image.cache[name];
+        if (!Ressource.cache[name]) Ressource.cache[name] = document.getElementById(name);
+        return Ressource.cache[name];
     }
     Ressource.cache = {};
 
@@ -385,7 +387,7 @@ function spaceInvader (window, canvas) {
         return Ressource(name);
     }
 
-    function Sound () {
+    function Sound (name) {
         try {
             var sound = Ressource(name);
             sound.load();
